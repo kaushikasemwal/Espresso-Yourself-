@@ -28,7 +28,7 @@ A modern web application that helps coffee lovers discover and save the best caf
 
 ## 🚀 Live Demo
 
-Visit the live app: [https://kaushikasemwal.github.io/Cafe-Finder/](https://kaushikasemwal.github.io/Cafe-Finder/)
+Visit the live app: [https://kaushikasemwal.github.io/Espresso-Yourself-/](https://kaushikasemwal.github.io/Espresso-Yourself-/)
 
 ## 📁 Project Structure
 
