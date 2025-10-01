@@ -1,0 +1,45 @@
+.passport-nav {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem;
+  background:#6F4E37;
+  color:#FAEBD7;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.passport-nav h1 {margin:0;font-size:1.2rem;}
+
+.back-btn, .share-btn {
+  background:#D2B48C;
+  border:1px solid #8B4513;
+  color:#3C2415;
+  padding:0.5rem 1rem;
+  border-radius:20px;
+  font-family:"Savate", sans-serif;
+  cursor:pointer;
+}
+
+.passport-header {
+  padding:2rem 1rem;
+  background:#FAEBD7;
+}
+
+.passport-cover {
+  background:#6F4E37;
+  color:#FAEBD7;
+  padding:2rem;
+  border-radius:15px;
+  text-align:center;
+  margin-bottom:2rem;
+}
+
+.passport-title {font-size:1.8rem;font-weight:bold;margin-bottom:0.5rem;}
+.passport-subtitle {font-size:1rem;opacity:0.8;margin-bottom:1rem;}
+.passport-number {font-family:monospace;font-size:0.9rem;background:#D2B48C;padding:0.3rem 0.8rem;border-radius:20px;display:inline-block;}
+
+.stats-grid {display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
+.stat-card {background:#FAEBD7;padding:1rem;border-radius:10px;text-align:center;border:1px solid #8B4513;}
+.stat-number {font-size:1.5rem;font-weight:bold;}

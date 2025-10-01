@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Coffee Passport - Cafe Curator</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕️</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Savate:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="passport.css">
+</head>
+<body>
+  <nav class="passport-nav">
+    <button onclick="goBack()" class="back-btn">← Back</button>
+    <h1>☕ My Coffee Passport</h1>
+    <button onclick="sharePassport()" class="share-btn">Share 📤</button>
+  </nav>
+
+  <div class="passport-header">
+    <div class="passport-cover">
+      <div class="passport-title">Coffee Explorer</div>
+      <div class="passport-subtitle">Digital Passport</div>
+      <div class="passport-number" id="passportNumber">#CE001</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="totalStamps">0</div>
+        <div class="stat-label">Stamps Collected</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="totalCafes">0</div>
+        <div class="stat-label">Cafes Visited</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="currentLevel">Novice</div>
+        <div class="stat-label">Current Level</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="totalPoints">0</div>
+        <div class="stat-label">Points Earned</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="passport-tabs">
+    <button class="tab-btn active" onclick="showTab('stamps')">📋 Stamps</button>
+    <button class="tab-btn" onclick="showTab('badges')">🏆 Badges</button>
+  </div>
+
+  <div class="tab-content" id="stamps">
+    <div id="stampsList"></div>
+  </div>
+
+  <div class="tab-content" id="badges" style="display:none;">
+    <div id="badgesList"></div>
+  </div>
+
+  <script src="passport.js"></script>
+  <script>
+    const passport = new CoffeePassport();
+
+    function goBack() {
+      window.history.back();
+    }
+
+    function sharePassport() {
+      alert(`Share your Coffee Passport!\nStamps: ${passport.passport.total_stamps}\nBadges: ${passport.passport.badges.join(", ")}`);
+    }
+
+    function showTab(tabName) {
+      document.querySelectorAll(".tab-content").forEach(tc => tc.style.display = "none");
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+      document.getElementById(tabName).style.display = "block";
+      document.querySelector(`.tab-btn[onclick="showTab('${tabName}')"]`).classList.add("active");
+    }
+  </script>
+</body>
+</html>

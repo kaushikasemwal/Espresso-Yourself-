@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Espresso Yourself 🎨</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕️</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Savate:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+</head>
+<body>
+  <h1>☕️ Espresso Yourself 🎨</h1>
+  <p>Find and save the best cafes near you.</p>
+
+  <div>
+    <button id="findCafesBtn" onclick="getLocation()" disabled>Find Cafes Near Me</button>
+    <button onclick="showSaved()">Show Saved Cafes</button>
+    <a href="passport_implementation.html"><button>☕ Coffee Passport</button></a>
+  </div>
+
+  <div class="cards"></div>
+
+  <script src="script.js"></script>
+  <!-- Google Maps API -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsMm9qPL_vyOzJ_3_dTjRRzF1GGUgtnQQ&libraries=places&callback=initMap"
+    async defer>
+  </script>
+</body>
+</html>
