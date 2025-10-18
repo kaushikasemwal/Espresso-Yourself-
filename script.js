@@ -108,7 +108,7 @@ function enrichCafeData(cafes) {
     const sentiment = reviews.length > 0 ? reviews.reduce((a, r) => a + analyzeSentiment(r.text), 0) / reviews.length : 0.5;
     return {
       name: cafe.name, place_id: cafe.place_id, location: cafe.vicinity, rating: cafe.rating || 4.0,
-      photo: cafe.photos ? cafe.photos[0].getUrl({ maxWidth: 400 }) : 'https://via.placeholder.com/400x300?text=Cafe',
+      photo: cafe.photos ? cafe.photos[0].getUrl({ maxWidth: 400 }) : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%238b5a3c" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" font-size="80" fill="white" text-anchor="middle" dy=".3em"%3E☕%3C/text%3E%3C/svg%3E',
       quiet_score: Math.random() * 10, wifi_score: Math.random() * 10, cozy_score: Math.random() * 10,
       social_score: Math.random() * 10, workspace_score: Math.random() * 10, artisan_score: Math.random() * 10,
       sentiment_score: sentiment, review_count: reviews.length
@@ -126,16 +126,17 @@ function getAIRecommendations() {
 }
 
 function generateMockCafes() {
+  const caffeImg = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%238b5a3c" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" font-size="80" fill="white" text-anchor="middle" dy=".3em"%3E☕%3C/text%3E%3C/svg%3E';
   return [
-    { name: 'The Daily Brew', place_id: 'mock_1', location: 'Downtown', rating: 4.5, photo: 'https://via.placeholder.com/400x300?text=Daily+Brew',
+    { name: 'The Daily Brew', place_id: 'mock_1', location: 'Downtown', rating: 4.5, photo: caffeImg,
       quiet_score: 8, wifi_score: 9, cozy_score: 7, social_score: 6, workspace_score: 9, artisan_score: 8, sentiment_score: 0.8, review_count: 245 },
-    { name: 'Cloud Nine Coffee', place_id: 'mock_2', location: 'Midtown', rating: 4.2, photo: 'https://via.placeholder.com/400x300?text=Cloud+Nine',
+    { name: 'Cloud Nine Coffee', place_id: 'mock_2', location: 'Midtown', rating: 4.2, photo: caffeImg,
       quiet_score: 4, wifi_score: 8, cozy_score: 9, social_score: 9, workspace_score: 6, artisan_score: 7, sentiment_score: 0.75, review_count: 189 },
-    { name: 'The Reading Room', place_id: 'mock_3', location: 'Arts District', rating: 4.7, photo: 'https://via.placeholder.com/400x300?text=Reading+Room',
+    { name: 'The Reading Room', place_id: 'mock_3', location: 'Arts District', rating: 4.7, photo: caffeImg,
       quiet_score: 9, wifi_score: 7, cozy_score: 9, social_score: 3, workspace_score: 8, artisan_score: 9, sentiment_score: 0.85, review_count: 312 },
-    { name: 'Social Grounds', place_id: 'mock_4', location: 'Main St', rating: 4.1, photo: 'https://via.placeholder.com/400x300?text=Social+Grounds',
+    { name: 'Social Grounds', place_id: 'mock_4', location: 'Main St', rating: 4.1, photo: caffeImg,
       quiet_score: 2, wifi_score: 8, cozy_score: 6, social_score: 10, workspace_score: 5, artisan_score: 6, sentiment_score: 0.72, review_count: 167 },
-    { name: 'Artisan & Co', place_id: 'mock_5', location: 'Pearl District', rating: 4.8, photo: 'https://via.placeholder.com/400x300?text=Artisan+Co',
+    { name: 'Artisan & Co', place_id: 'mock_5', location: 'Pearl District', rating: 4.8, photo: caffeImg,
       quiet_score: 6, wifi_score: 6, cozy_score: 7, social_score: 5, workspace_score: 7, artisan_score: 10, sentiment_score: 0.88, review_count: 298 }
   ];
 }
@@ -217,7 +218,10 @@ function updateStatsDisplay() {
 function showSavedCafes() {
   const saved = JSON.parse(sessionStorage.getItem('savedCafes') || '[]');
   const grid = document.getElementById('savedGrid');
-  if (saved.length === 0) { grid.innerHTML = '<p style="text-align:center;grid-column:1/-1;">No saved cafes yet ☕</p>'; return; }
+  if (saved.length === 0) { 
+    grid.innerHTML = '<p style="text-align:center;grid-column:1/-1;">No saved cafes yet ☕</p>'; 
+    return; 
+  }
   grid.innerHTML = saved.map(cafe => `
     <div class="saved-card">
       <div class="saved-image-wrapper">
@@ -228,7 +232,7 @@ function showSavedCafes() {
         <h3 class="saved-name">${cafe.name}</h3>
         <p class="saved-location">📍 ${cafe.location}</p>
         <div class="saved-match">⭐ ${cafe.rating}</div>
-        <button class="photo-upload-btn" onclick="openPhotoUpload('${cafe.place_id}', '${cafe.name}')">📸 Add Photos</button>
+        <button class="photo-upload-btn" onclick="openPhotoUpload('${cafe.place_id}', '${cafe.name.replace(/'/g, "\\'")}')">📸 Add Photos</button>
         <button class="remove-btn" onclick="removeSavedCafe('${cafe.place_id}')">Remove</button>
       </div>
     </div>`).join('');
@@ -250,7 +254,7 @@ function openPhotoUpload(cafeId, cafeName) {
         count++;
         if (count === files.length) {
           sessionStorage.setItem('uploadedPhotos', JSON.stringify(uploadedPhotos));
-          alert(`${count} photos uploaded for ${cafeName}!`);
+          alert(`✅ ${count} photo(s) uploaded!`);
           if(window.passport) window.passport.uploadPhoto(cafeId, files.length);
           showSavedCafes();
         }

@@ -54,11 +54,11 @@
     </style>
 </head>
 <body>
-    <nav class="passport-nav">
-        <button class="back-btn" onclick="goBack()">Back</button>
-        <h1>My Coffee Passport</h1>
-        <button class="share-btn" onclick="sharePassport()">Share</button>
-    </nav>
+<nav class="passport-nav">
+    <button class="back-btn" onclick="goHome()">← Back Home</button>
+    <h1>My Coffee Passport</h1>
+    <button class="share-btn" onclick="sharePassport()">Share</button>
+</nav>
 
     <div class="passport-container">
         <div class="passport-cover">
@@ -161,8 +161,8 @@
             a.click();
             URL.revokeObjectURL(url);
         }
-        function goBack() {
-            window.history.back();
+        function goHome() {
+            window.location.href = 'index.html';
         }
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(initPassportDisplay, 500);
