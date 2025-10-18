@@ -2,6 +2,10 @@
 
 An advanced web application for discovering and saving cafes with AI recommendations, photo uploads, sentiment analysis, and community leaderboards.
 
+## 🌐 Live Demo
+
+**Try it now:** [https://kaushikasemwal.github.io/Espresso-Yourself-/](https://kaushikasemwal.github.io/Espresso-Yourself-/)
+
 ## Features
 
 ### AI Matching System
@@ -52,7 +56,7 @@ An advanced web application for discovering and saving cafes with AI recommendat
 ### 2. Update API Key
 In index.html, replace:
 ```html
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places"></script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places"></script>
 ```
 
 ### 3. Run Local Server
@@ -104,3 +108,81 @@ Navigate to: `http://localhost:8000`
 - **Privacy first**: No tracking or personal data collection
 
 ## File Structure
+
+```
+espresso-yourself/
+├── index.html                      # Main app
+├── script.js                       # AI logic & photo uploads
+├── leaderboard.js                  # Rankings system
+├── passport.js                     # Badges & stamps
+├── passport_implementation.html    # Passport page
+├── style.css                       # Complete styling
+└── README.md                       # This file
+```
+
+## Browser Support
+
+- Chrome (Recommended)
+- Firefox
+- Safari
+- Edge
+- Mobile browsers (iOS/Android)
+
+## Troubleshooting
+
+**Google Maps API not loading**
+- Verify API key is correct
+- Check APIs enabled in Google Cloud
+- Review CORS settings
+
+**Photos not saving**
+- Check sessionStorage is enabled
+- Not in private/incognito mode
+- Browser storage quota available
+
+**Leaderboard not updating**
+- Check localStorage enabled
+- Refresh page to sync
+- Try incognito window
+
+## Technologies Used
+
+- HTML5, CSS3, JavaScript ES6+
+- Google Maps JavaScript API
+- Hammer.js for gestures
+- No backend required
+- All local storage
+
+## Future Enhancements
+
+- Backend cloud storage
+- Photo gallery view
+- Social networking features
+- Opening hours filtering
+- Route optimization
+- Mobile app version
+- Offline support
+- AR cafe previews
+
+## Privacy & Security
+
+- No backend server
+- No personal data collected
+- No cookies or tracking
+- Local browser storage only
+- GDPR compliant
+- Anonymous leaderboard participation
+
+## License
+
+MIT License - Free for personal and commercial use
+
+## Credits
+
+Made with coffee and passion for coffee enthusiasts everywhere.
+
+---
+
+**Start discovering amazing cafes today!**
+
+Visit the live demo: [https://kaushikasemwal.github.io/Espresso-Yourself-/](https://kaushikasemwal.github.io/Espresso-Yourself-/)
