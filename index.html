@@ -1,30 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Espresso Yourself 🎨</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕️</text></svg>">
-  <link href="https://fonts.googleapis.com/css2?family=Savate:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espresso Yourself - AI-Powered Cafe Finder</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsMm9qPL_vyOzJ_3_dTjRRzF1GGUgtnQQ&libraries=places"></script>
 </head>
 <body>
-  <h1>☕️ Espresso Yourself 🎨</h1>
-  <p>Find and save the best cafes near you.</p>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">☕ Espresso Yourself</div>
+            <ul class="nav-links">
+                <li><a onclick="showSection('discover')">Discover</a></li>
+                <li><a onclick="showSection('stats')">Stats</a></li>
+                <li><a onclick="showSection('saved')">Saved</a></li>
+                <li><a onclick="showSection('leaderboard')">Leaderboard</a></li>
+                <li><a href="passport_implementation.html" target="_blank">Passport</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <div>
-    <button id="findCafesBtn" onclick="getLocation()" disabled>Find Cafes Near Me</button>
-    <button onclick="showSaved()">Show Saved Cafes</button>
-    <a href="passport_implementation.html"><button>☕ Coffee Passport</button></a>
-  </div>
+    <section class="hero">
+        <h1>Espresso Yourself</h1>
+        <p>Find and save the best cafes near you with AI-powered recommendations</p>
+    </section>
 
-  <div class="cards"></div>
+    <div class="main-container">
+        <div id="discover" class="section active">
+            <div class="search-section">
+                <div class="search-tabs">
+                    <button class="tab-btn active" onclick="switchTab('preferences')">Preferences</button>
+                    <button class="tab-btn" onclick="switchTab('location')">Location</button>
+                </div>
+                <div id="preferencesSearch" class="search-content active">
+                    <p style="margin-bottom: 1.5rem; color: var(--medium-brown); font-weight: 500;">What's your ideal cafe vibe?</p>
+                    <div class="preference-grid" id="preferenceGrid"></div>
+                    <button class="btn btn-accent" onclick="getAIRecommendations()">Get AI Recommendations</button>
+                </div>
+                <div id="locationSearch" class="search-content">
+                    <p style="margin-bottom: 1rem; color: var(--medium-brown); font-weight: 500;">Search for cafes</p>
+                    <input type="text" class="search-box" id="locationInput" placeholder="Enter city name...">
+                    <button class="btn" onclick="searchByLocation()">Search</button>
+                    <button class="btn" style="margin-top: 0.5rem; background: var(--success);" onclick="getLocationBasedCafes()">Use My Location</button>
+                </div>
+            </div>
+            <div class="swipe-section">
+                <h2 class="section-title">Swipe to Discover</h2>
+                <div id="loadingBox" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Finding perfect cafes for you...</p>
+                </div>
+                <div class="card-container" id="cardContainer"></div>
+                <div class="swipe-actions">
+                    <button class="action-btn dislike" onclick="swipeLeft()">✕</button>
+                    <button class="action-btn like" onclick="swipeRight()">❤️</button>
+                </div>
+            </div>
+        </div>
 
-  <script src="script.js"></script>
-  <!-- Google Maps API -->
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsMm9qPL_vyOzJ_3_dTjRRzF1GGUgtnQQ&libraries=places&callback=initMap"
-    async defer>
-  </script>
+        <div id="stats" class="section">
+            <h2 class="section-title">Your Journey</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div style="font-size: 2.5rem;">☕</div>
+                    <div class="stat-number" id="totalVisited">0</div>
+                    <div class="stat-label">Cafes Visited</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 2.5rem;">🤖</div>
+                    <div class="stat-number" id="avgMatchScore">0%</div>
+                    <div class="stat-label">Avg AI Match</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 2.5rem;">💾</div>
+                    <div class="stat-number" id="totalSaved">0</div>
+                    <div class="stat-label">Saved Cafes</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 2.5rem;">👑</div>
+                    <div class="stat-number" id="userLevel">Newbie</div>
+                    <div class="stat-label">Your Level</div>
+                </div>
+            </div>
+            <h3 style="margin-top: 2rem; color: var(--text-dark); font-size: 1.5rem;">Achievements</h3>
+            <div class="badges-grid" id="badgesGrid"></div>
+            <div class="passport-section">
+                <div class="passport-header">
+                    <h3 style="color: var(--text-dark); margin-bottom: 0.5rem;">Coffee Passport</h3>
+                    <div class="passport-id" id="passportId">CE-001</div>
+                </div>
+                <div class="stamps-container">
+                    <h4 style="color: var(--text-dark); margin-bottom: 1rem;">Stamps Collected</h4>
+                    <div class="stamps-grid" id="stampsGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="saved" class="section">
+            <h2 class="section-title">Your Saved Cafes</h2>
+            <div class="saved-grid" id="savedGrid"></div>
+        </div>
+
+        <div id="leaderboard" class="section">
+            <h2 class="section-title">Community Leaderboard</h2>
+            <div class="leaderboard-container">
+                <div class="leaderboard-tabs">
+                    <button class="leaderboard-tab-btn active" onclick="switchLeaderboardTab('global')">Global Leaders</button>
+                    <button class="leaderboard-tab-btn" onclick="switchLeaderboardTab('weekly')">This Week</button>
+                    <button class="leaderboard-tab-btn" onclick="switchLeaderboardTab('sentiment')">Best Reviewers</button>
+                </div>
+                <div id="leaderboardContent" class="leaderboard-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Espresso Yourself. Made with coffee and passion</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="passport.js"></script>
+    <script src="leaderboard.js"></script>
 </body>
 </html>

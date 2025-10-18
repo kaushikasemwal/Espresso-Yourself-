@@ -1,79 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Coffee Passport - Cafe Curator</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕️</text></svg>">
-  <link href="https://fonts.googleapis.com/css2?family=Savate:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="passport.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Coffee Passport - Espresso Yourself</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .passport-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2rem; background: var(--dark-brown); color: var(--light-cream); position: sticky; top: 0; z-index: 100; }
+        .passport-nav h1 { margin: 0; font-size: 1.4rem; color: var(--accent-orange); }
+        .back-btn, .share-btn { background: var(--medium-brown); border: 2px solid var(--light-brown); color: var(--light-cream); padding: 0.7rem 1.5rem; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .back-btn:hover, .share-btn:hover { background: var(--dark-brown); transform: translateY(-2px); }
+        .passport-container { max-width: 900px; margin: 2rem auto; padding: 0 2rem; }
+        .passport-cover { background: linear-gradient(135deg, var(--medium-brown) 0%, var(--light-brown) 100%); color: var(--light-cream); padding: 3rem 2rem; border-radius: 25px; text-align: center; margin-bottom: 3rem; box-shadow: 0 15px 50px rgba(0,0,0,0.2); border: 3px solid var(--gold); }
+        .passport-icon { font-size: 5rem; margin-bottom: 1rem; }
+        .passport-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .passport-subtitle { font-size: 1.2rem; opacity: 0.95; margin-bottom: 1.5rem; }
+        .passport-id { background: rgba(255,255,255,0.2); border: 2px solid var(--light-cream); color: var(--light-cream); padding: 1rem 2rem; border-radius: 15px; font-family: monospace; font-size: 1.3rem; font-weight: bold; display: inline-block; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .stat-card { background: var(--light-cream); padding: 1.5rem; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); text-align: center; border-top: 4px solid var(--accent-orange); }
+        .stat-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .stat-number { font-size: 2.5rem; font-weight: 700; color: var(--dark-brown); margin: 0.5rem 0; }
+        .stat-label { color: var(--medium-brown); font-weight: 500; font-size: 0.95rem; }
+        .progress-section { background: var(--light-cream); padding: 2rem; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); margin-bottom: 2rem; }
+        .progress-title { font-size: 1.3rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1.5rem; }
+        .progress-bar-container { background: var(--cream); height: 40px; border-radius: 20px; overflow: hidden; margin-bottom: 1rem; border: 2px solid var(--light-brown); }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent-orange) 0%, var(--medium-brown) 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: width 0.5s ease; }
+        .level-display { background: var(--dark-brown); color: var(--light-cream); padding: 1rem; border-radius: 15px; text-align: center; margin-top: 1rem; font-size: 1.1rem; font-weight: 600; }
+        .badges-section, .stamps-section { background: var(--light-cream); padding: 2rem; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); margin-bottom: 2rem; }
+        .badges-title, .stamps-title { font-size: 1.3rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1.5rem; }
+        .badges-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1.5rem; }
+        .badge { background: var(--cream); padding: 1.5rem; border-radius: 15px; text-align: center; border: 2px solid var(--light-brown); transition: all 0.3s; opacity: 0.5; font-weight: 600; }
+        .badge.unlocked { background: linear-gradient(135deg, var(--gold) 0%, var(--accent-orange) 100%); border-color: var(--gold); opacity: 1; transform: scale(1.05); box-shadow: 0 8px 25px rgba(212,165,116,0.3); }
+        .stamps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 1rem; }
+        .stamp { aspect-ratio: 1; background: var(--cream); border: 3px dashed var(--light-brown); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: all 0.3s; }
+        .stamp.earned { background: linear-gradient(135deg, var(--gold) 0%, var(--accent-orange) 100%); border: 3px solid var(--gold); transform: scale(1.08); box-shadow: 0 8px 20px rgba(212,165,116,0.4); }
+        .action-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+        .action-btn { padding: 1rem 2rem; border-radius: 15px; border: none; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 1rem; }
+        .share-passport-btn { background: var(--accent-orange); color: white; }
+        .share-passport-btn:hover { background: #c5714f; transform: translateY(-2px); }
+        .export-passport-btn { background: var(--medium-brown); color: var(--light-cream); border: 2px solid var(--light-brown); }
+        .export-passport-btn:hover { background: var(--dark-brown); transform: translateY(-2px); }
+        .back-home-btn { background: var(--dark-brown); color: var(--light-cream); border: 2px solid var(--medium-brown); }
+        .back-home-btn:hover { background: var(--medium-brown); transform: translateY(-2px); }
+        footer { background: var(--dark-brown); color: var(--light-cream); text-align: center; padding: 2rem; margin-top: 4rem; }
+        @media (max-width: 768px) {
+            .passport-title { font-size: 2rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .stamps-grid { grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); }
+            .action-buttons { flex-direction: column; }
+            .action-btn { width: 100%; }
+        }
+    </style>
 </head>
 <body>
-  <nav class="passport-nav">
-    <button onclick="goBack()" class="back-btn">← Back</button>
-    <h1>☕ My Coffee Passport</h1>
-    <button onclick="sharePassport()" class="share-btn">Share 📤</button>
-  </nav>
+    <nav class="passport-nav">
+        <button class="back-btn" onclick="goBack()">Back</button>
+        <h1>My Coffee Passport</h1>
+        <button class="share-btn" onclick="sharePassport()">Share</button>
+    </nav>
 
-  <div class="passport-header">
-    <div class="passport-cover">
-      <div class="passport-title">Coffee Explorer</div>
-      <div class="passport-subtitle">Digital Passport</div>
-      <div class="passport-number" id="passportNumber">#CE001</div>
+    <div class="passport-container">
+        <div class="passport-cover">
+            <div class="passport-icon">☕</div>
+            <div class="passport-title">Coffee Explorer</div>
+            <div class="passport-subtitle">Digital Passport</div>
+            <div class="passport-id" id="passportId">CE-001</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🌍</div>
+                <div class="stat-number" id="totalCafes">0</div>
+                <div class="stat-label">Cafes Visited</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎖️</div>
+                <div class="stat-number" id="totalStamps">0</div>
+                <div class="stat-label">Stamps Earned</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-number" id="badgesEarned">0</div>
+                <div class="stat-label">Badges Unlocked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📸</div>
+                <div class="stat-number" id="photosUploaded">0</div>
+                <div class="stat-label">Photos Uploaded</div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-title">Your Progress to Coffee Master</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%">
+                    <span id="progressText">0%</span>
+                </div>
+            </div>
+            <div style="text-align: center; color: var(--medium-brown); font-weight: 600;" id="progressDescription">Start swiping to begin your coffee journey!</div>
+            <div class="level-display" id="levelDisplay">Coffee Newbie</div>
+        </div>
+
+        <div class="badges-section">
+            <div class="badges-title">Achievements Unlocked</div>
+            <div class="badges-grid" id="badgesGrid"></div>
+        </div>
+
+        <div class="stamps-section">
+            <div class="stamps-title">Your Passport Stamps</div>
+            <div class="stamps-grid" id="stampsGrid"></div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn share-passport-btn" onclick="sharePassport()">Share Passport</button>
+            <button class="action-btn export-passport-btn" onclick="exportPassport()">Export Data</button>
+            <button class="action-btn back-home-btn" onclick="goBack()">Back to Discover</button>
+        </div>
     </div>
 
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-number" id="totalStamps">0</div>
-        <div class="stat-label">Stamps Collected</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" id="totalCafes">0</div>
-        <div class="stat-label">Cafes Visited</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" id="currentLevel">Novice</div>
-        <div class="stat-label">Current Level</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" id="totalPoints">0</div>
-        <div class="stat-label">Points Earned</div>
-      </div>
-    </div>
-  </div>
+    <footer>
+        <p>&copy; 2025 Espresso Yourself. Made with coffee and passion</p>
+    </footer>
 
-  <div class="passport-tabs">
-    <button class="tab-btn active" onclick="showTab('stamps')">📋 Stamps</button>
-    <button class="tab-btn" onclick="showTab('badges')">🏆 Badges</button>
-  </div>
-
-  <div class="tab-content" id="stamps">
-    <div id="stampsList"></div>
-  </div>
-
-  <div class="tab-content" id="badges" style="display:none;">
-    <div id="badgesList"></div>
-  </div>
-
-  <script src="passport.js"></script>
-  <script>
-    const passport = new CoffeePassport();
-
-    function goBack() {
-      window.history.back();
-    }
-
-    function sharePassport() {
-      alert(`Share your Coffee Passport!\nStamps: ${passport.passport.total_stamps}\nBadges: ${passport.passport.badges.join(", ")}`);
-    }
-
-    function showTab(tabName) {
-      document.querySelectorAll(".tab-content").forEach(tc => tc.style.display = "none");
-      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-      document.getElementById(tabName).style.display = "block";
-      document.querySelector(`.tab-btn[onclick="showTab('${tabName}')"]`).classList.add("active");
-    }
-  </script>
+    <script src="passport.js"></script>
+    <script>
+        function initPassportDisplay() {
+            if(!passport) return;
+            const stats = passport.getStats();
+            document.getElementById('totalCafes').textContent = stats.totalCafes;
+            document.getElementById('totalStamps').textContent = stats.totalStamps;
+            document.getElementById('badgesEarned').textContent = stats.totalBadges;
+            document.getElementById('photosUploaded').textContent = stats.photosUploaded;
+            document.getElementById('passportId').textContent = passport.passport.passport_id;
+            const prog = Math.min((stats.totalCafes / 20) * 100, 100);
+            document.getElementById('progressBar').style.width = prog + '%';
+            document.getElementById('progressText').textContent = Math.round(prog) + '%';
+            document.getElementById('levelDisplay').textContent = stats.level;
+            const rem = Math.max(0, 20 - stats.totalCafes);
+            document.getElementById('progressDescription').textContent = rem === 0 ? 'Congratulations! You are a Coffee Master!' : `${rem} more cafes until Coffee Master!`;
+        }
+        function sharePassport() {
+            if(!passport) return;
+            const stats = passport.getStats();
+            const text = `Check out my Coffee Passport! I've visited ${stats.totalCafes} cafes and earned ${stats.totalBadges} badges! Level: ${stats.level}`;
+            if (navigator.share) {
+                navigator.share({ title: 'My Coffee Passport', text: text, url: window.location.href }).catch(err => console.log('Share failed:', err));
+            } else {
+                alert(text + '\n\nCopy this to share!');
+            }
+        }
+        function exportPassport() {
+            if(!passport) return;
+            const data = passport.exportData();
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `coffee-passport-${passport.passport.passport_id}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        function goBack() {
+            window.history.back();
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(initPassportDisplay, 500);
+        });
+    </script>
 </body>
 </html>
